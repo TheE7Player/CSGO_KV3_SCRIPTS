@@ -6,7 +6,7 @@
 
 Here is a list of examples of custom KV3 scripts which allow bots to perform certain tasks - some of which helps bots to perform executes or certain actions bots cannot do in their own.
 
-Reliable resources: [CSGO Bot Behavior Trees] (List of all the possible options)(https://developer.valvesoftware.com/wiki/CS:GO_Bot_Behavior_Trees#:~:text=Counter-Strike:%20Global%20Offensive%20,,%27s%20proprietary%20KeyValues3%20format%20%28%20.)
+Reliable resources:  [CSGO Bot Behavior Trees](https://developer.valvesoftware.com/wiki/CS:GO_Bot_Behavior_Trees#:~:text=Counter-Strike:%20Global%20Offensive%20,,%27s%20proprietary%20KeyValues3%20format%20%28%20) (List of all the possible options).
 
 ## How to active a script
 
