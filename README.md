@@ -36,10 +36,10 @@ The list of scripts stated in the [Single Bot Tests](https://github.com/TheE7Pla
 # GIF DEMOS
 
 ## Jump Death
-This script ([AAA](https://github.com/TheE7Player/CSGO_KV3_SCRIPTS/blob/main/Single%20Bot%20Tests/bt_deathjump.kv3)) is a demo of a bot performing a jump, waiting a few seconds then dies. Simple.
+This script ([here](https://github.com/TheE7Player/CSGO_KV3_SCRIPTS/blob/main/Single%20Bot%20Tests/bt_deathjump.kv3)) is a demo of a bot performing a jump, waiting a few seconds then dies. Simple.
 ![Jump Demo](https://media.giphy.com/media/ZySZrF5hw0wbKp5VmM/giphy.gif)
 
 ## Barrel Demo (Dust 2 - A Long)
-This script ([AAA](https://github.com/TheE7Player/CSGO_KV3_SCRIPTS/blob/main/Single%20Bot%20Tests/bt_bot_D2_ALong_Barrel.kv3)) shows how you can combine 2 Combinators ( `sequencer` and `parallel`) to make the bot perform a jump onto the barrel on A Long on Dust 2.
+This script ([here](https://github.com/TheE7Player/CSGO_KV3_SCRIPTS/blob/main/Single%20Bot%20Tests/bt_bot_D2_ALong_Barrel.kv3)) shows how you can combine 2 Combinators ( `sequencer` and `parallel`) to make the bot perform a jump onto the barrel on A Long on Dust 2.
 
 ![Barrel Demo](https://media.giphy.com/media/gbXkJpSGajQrbQfDNM/giphy-downsized-large.gif)
