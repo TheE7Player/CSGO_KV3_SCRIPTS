@@ -31,4 +31,9 @@ A handy command is `cv_bot_ai_bt_debug_target 2` which shows you the behaviour s
 
 # List of scripts for example
 
-The list of scripts stated in the [Single Bot Tests](https://github.com/TheE7Player/CSGO_KV3_SCRIPTS/tree/main/Single%20Bot%20Tests "Single Bot Tests") folder contain scripts of which was tested with only 1 bot - these scripts will make every bot present perform the same action. Do not use this if its needs to be coordinated between bots! It does make funny results... 
+The list of scripts stated in the [Single Bot Tests](https://github.com/TheE7Player/CSGO_KV3_SCRIPTS/tree/main/Single%20Bot%20Tests "Single Bot Tests") folder contain scripts of which was tested with only 1 bot - these scripts will make every bot present perform the same action. Do not use this if its needs to be coordinated between bots! It does make funny results...
+
+# GIF DEMOS
+![Jump Demo](https://media.giphy.com/media/gbXkJpSGajQrbQfDNM/giphy.gif)
+
+![Barrel Demo](https://media.giphy.com/media/gbXkJpSGajQrbQfDNM/giphy.gif)
