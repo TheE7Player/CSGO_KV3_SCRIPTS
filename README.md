@@ -8,7 +8,7 @@ Here is a list of examples of custom KV3 scripts which allow bots to perform cer
 
 Reliable resources:  [CSGO Bot Behavior Trees](https://developer.valvesoftware.com/wiki/CS:GO_Bot_Behavior_Trees#:~:text=Counter-Strike:%20Global%20Offensive%20,,%27s%20proprietary%20KeyValues3%20format%20%28%20) (List of all the possible options).
 
-## How to active a script
+## How to activate a script
 
 Quite simple. 
 First, you need to place the scripts with the `/scripts/ai` folder in your current installed location of CS:GO.
