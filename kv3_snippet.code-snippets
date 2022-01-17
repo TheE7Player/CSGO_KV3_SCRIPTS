@@ -1,0 +1,722 @@
+{
+	"Adds the main header": {
+		"prefix": "header",
+		"body": [
+		  "<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->",
+		  "{",
+		  "    // Locate the config.kv3 file which controls its difficulties",
+		  "    config = \"scripts/ai/${1:bt_config}.kv3\"",
+		  "    root = ",
+		  "    {",
+		  "        $0",
+		  "    }",
+		  "}"
+		],
+		"description": "Adds the main header"
+	},
+	
+	// Combinators
+	"Adds a Sequence Combinator": {
+		"prefix": "seq",
+		"body": [
+			"type = \"sequencer\"",
+			"children =",
+			"[",
+			"   $0",
+			"]"
+		],
+		"description": "Adds a Sequencer (Runs while true condition)"
+	},
+	"Adds a Selector Combinator": {
+		"prefix": "sel",
+		"body": [
+			"type = \"selector\"",
+			"children =",
+			"[",
+			"   $0",
+			"]"
+		],
+		"description": "Adds a Selector (Runs while false condition)"
+	},
+	"Adds a Parallel Combinator": {
+		"prefix": "par",
+		"body": [
+			"type = \"parallel\"",
+			"children =",
+			"[",
+			"   $0",
+			"]"
+		],
+		"description": "Adds a Parallel (All Children Gets Called Per Tick)"
+	},
+	"Adds a Subtree Combinator": {
+		"prefix": "sub",
+		"body": [
+			"type = \"subtree\"",
+			"file = scripts/ai/${1:another_file.kv3}",
+			"name = ${0:Give Name (BasicPlayerMemorization/PlantC4/etc)}"
+		],
+		"description": "Adds a Subtree (Reads from another .kv3 file)"
+	},
+	
+	// Decorators (Action Invokers/Instructors)
+	"Adds an Repeat Decorator": {
+		"prefix": "repeat",
+		"body": [
+		  "type = \"decorator_repeat\"",
+		  "child =",
+		  "[",
+		  "   $0",
+		  "]"
+		],
+		"description": "Adds an Repeat Decorator"
+	},
+	"Adds an Run Once Decorator": {
+		"prefix": "run once",
+		"body": [
+		  "type = \"decorator_run_once\"",
+		  "max_attempts = ${1:1, 2, 5?}",
+		  "memory_to_expire =",
+		  "[",
+		  "    // [NOTE]: These are just base-line variables, other keys were not included!",
+		  "    {",
+		  "        key = \"ShortTermAttackMemory\"",
+		  "        time = 1",
+		  "        distance = 200",
+		  "    },",
+		  "    {",
+		  "        key = \"LongTermMemory\"",
+		  "        time = 10",
+		  "        distance = 500",
+		  "    },",
+		  "    {",
+		  "        key = \"ShortTermInvestigateMemory\"",
+		  "        time = 3",
+		  "        distance = 200",
+		  "    }",
+		  "]",
+		  "child =",
+		  "[",
+		  "    $0",
+		  "]"
+		],
+		"description": "Adds an Repeat Decorator"
+	},
+	"Adds an Random Number Decorator (Global)": {
+	"prefix": "random",
+	"body": [
+		"type = \"decorator_random_int\"",
+		"min = ${1:1..10?}",
+		"max = ${2:1..10?}",
+		"output = \"${0:Variable name (BombSiteIndex, WaitTime etc)}\"",
+		"// [NOTE] Discard this child property if you don't require any logic going forward with this decorator",
+		"child =",
+		"{",
+		"    ",
+		"}"
+	],
+	"description": "Adds an Random Number Decorator (Global)"
+	},
+	"Adds an Sensor Decorator": {
+		"prefix": "sensor",
+		"body": [
+		  "type = \"decorator_sensor\"",
+		  "shape =",
+		  "{",
+		  "    type = \"${1|sensor_shape_fov,sensor_shape_sphere|}\"",
+		  "    radius = ${2:3000}",
+		  "}",
+		  "entity_type_filter = \"${3|ALL,PLAYERS,HUMAN_PLAYERS,NOISE,DAMAGE,AREA_DAMAGE,CLASSNAME,GRENADE|}\"",
+		  "orphan_only = 1",
+		  "output = \"{$4:Variable Name (Bombs, Weapons etc)}\"",
+		  "class_name = \"{$2:Entity name (weapon_c4 etc)\"",
+		  "priority = 1",
+		  "// [NOTE]: team_filter is an optional but powerful parameter",
+		  "team_filter = {$5|ANY,CT,TERRORIST SAME,OPPOSITE,ENEMY|}",
+		  "child = ", 
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Sensor Decorator"
+	},
+	"Adds an Try Lock Decorator": {
+		"prefix": "try lock",
+		"body": [
+		  "type = \"decorator_try_lock\"",
+		  "domain = \"'${1:Variable}'\"",
+		  "child = ",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Try Lock Decorator"
+	},
+	"Adds an Wait Success Decorator": {
+		"prefix": "wait success",
+		"body": [
+		  "type = \"decorator_wait_success\"",
+		  "timeout = ${1:1..20?}",
+		  "child = ",
+		  "{",
+		  "    // Execute actions on certain value or delay?",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Wait Success Decorator"
+	},
+	"Adds an Succeed Decorator": {
+		"prefix": "succeed",
+		"body": [
+		"type = \"decorator_succeed\"",
+		"child =",
+		"{",
+		"    // Child actions execute if the decorator previous to this was successful",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Succeed Decorator"
+	},
+	"Adds an Reaction Time Decorator": {
+		"prefix": "set reaction time",
+		"body": [
+		  "// Reads the bot difficultly and reacts based on its reaction time given",
+		  "type = \"decorator_set_reaction_time\"",
+		  "input = \"${1:Input variable or filter}\"",
+		  "child =",
+		  "{",
+		  "     $0",
+		  "}"
+		],
+		"description": "Adds an Reaction Time Decorator"
+	},
+	"Adds an Ranker Distance Decorator": {
+		"prefix": "ranker distance",
+		"body": [
+		  "// Calculates the inputs and ranks them (sorted, assuming descending?) depending on their size?",
+		  "type = \"decorator_ranker_dist\"",
+		  "input = \"${1:Variable Input or Filter (Enemy etc)}\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Ranker Distance Decorator"
+	},
+	"Adds an Remove Key Decorator": {
+		"prefix": "remove key",
+		"body": [
+		  "// Removes an assign key in the trees cache",
+		  "type = \"decorator_remove_key\"",
+		  "input = \"${0:Input Variable To Clear)\""
+		],
+		"description": "Adds an Remove Key Decorator"
+	},
+	"Adds an Remove Decorator": {
+		"prefix": "remove",
+		"body": [
+		  "// Removes key from tree caches from many bots or targetted ID bots",
+		  "type = \"decorator_remove\"",
+		  "input = \"${1:Input Variable To Clear}\"",
+		  "input_domain = \"${2|GroupID (Insert ID number),AllBots|}\"",
+		  "input = \"${3:Input variable to remove}\"",
+		  "remove = \"${0:Output variable to remove}\""
+		],
+		"description": "Adds an Remove Decorator"
+	},
+	"Adds an Memory Decorator": {
+		"prefix": "memory",
+		"body": [
+		  "// Stores an input variable data into a memory buffer for the bot",
+		  "type = \"decorator_memory\"",
+		  "input = \"${1:Input Variable}\"",
+		  "output = \"${2|ShortTermAttackMemory,ShortTermDamageMemory,ShortTermAreaDamageMemory,ShortTermInvestigateMemory,LongTermMemory,DamageThroughSmokeMemory,Threats|}\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Memory Decorator"
+	},
+	"Adds an Picker Nearby Decorator": {
+		"prefix": "picker nearby",
+		"body": [
+		  "// Executes if 'input' is seen with 'cutoff-distance' fov",
+		  "type = \"decorator_picker_nearby\"",
+		  "input = \"${1:Input variable}\"",
+		  "cutoff_distance = ${2:FOV range (int)}",
+		  "child = ",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Picker Nearby Decorator"
+	},
+	"Adds an Picker Visible Decorator": {
+		"prefix": "picker visible",
+		"body": [
+		  "// Check if an input is close by the bot",
+		  "type = \"decorator_picker_visible\"",
+		  "input = \"${1:Input Variable}\"",
+		  "// [NOTE] Unsure what its meant by int_flag? (Nullable boolean type?)",
+		  "// 'check_fov' is optional, checks if its using vision for its reason",
+		  "check_fov = ${2|0,1|}",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Picker Visible Decorator"
+	},
+	"Adds an Picker Grenade Type Decorator": {
+		"prefix": "picker grenade type",
+		"body": [
+		  "// Check if an input is close by the bot",
+		  "type = \"decorator_picker_grenade_type\"",
+		  "input = \"${1:Input Variable (Ideally a sensor output)}\"",
+		  "// [NOTE]: 'types' is an array of possible things to look for (target):",
+		  "types =",
+		  "[",
+		  "    \"EXPLOSIVE\", ",
+		  "    \"FLASH\",",
+		  "    \"FIRE\",",
+		  "    \"DECOY\",",
+		  "    \"SMOKE\",",
+		  "    \"SENSOR\",",
+		  "    \"SNOWBALL\"",
+		  "]",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Picker Grenade Type Decorator"
+	},
+	"Adds an Picker Blocked By Smoke Decorator": {
+		"prefix": "picker blocked smoke",
+		"body": [
+		  "// If the bot detects its fov is hidden by a smoke",
+		  "type = \"decorator_picker_blocked_by_smoke\"",
+		  "input = \"${1:Input Variable (Ideally Sensor Variable)}\"",
+		  "distance_threshold = 3000",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Picker Blocked By Smoke Decorator"
+	},
+	"Adds an Need Healing Decorator": {
+		"prefix": "need healing",
+		"body": [
+		  "// Executes if a bots health is less than the threshold given",
+		  "type = \"decorator_need_healing\"",
+		  "health_threshold = ${1:Health (0..100)}",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Need Healing Decorator"
+	},
+	"Adds an Maybe Decorator": {
+		"prefix": "maybe",
+		"body": [
+		  "// Acts as a random chance execution, but a chance it may not execute at all.",
+		  "type = \"decorator_maybe\"",
+		  "chance = ${1:chance of executing (0.00..1.00)}",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Maybe Decorator"
+	},
+	"Adds an Global Decrement Decorator": {
+		"prefix": "global decrement",
+		"body": [
+		  "// Subtracts '1' from the variable input value, then executes.",
+		  "type = \"decorator_dec_global_counter\"",
+		  "input_name = \"'${1:Variable Input To Decrement}'\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Global Decrement Decorator"
+	},
+	"Adds an Bot Service Decorator": {
+		"prefix": "bot service",
+		"body": [
+		  "// Main logic of the bot, contains 'subtree' combinators some times.",
+		  "type = \"decorator_bot_service\"",
+		  "// [NOTE]: Tweak these base-line variables if needed",
+		  "memory_to_expire =",
+		  "[",
+		  "    {",
+		  "        key = \"ShortTermAttackMemory\"",
+		  "        time = 0.7",
+		  "        distance = 0",
+		  "    },",
+		  "    {",
+		  "        key = \"ShortTermDamageMemory\"",
+		  "        time = 0.7",
+		  "        distance = 0",
+		  "    },",
+		  "    {",
+		  "        key = \"ShortTermAreaDamageMemory\"",
+		  "        time = 3",
+		  "        distance = 0",
+		  "    },",
+		  "    {",
+		  "        key = \"ShortTermInvestigateMemory\"",
+		  "        time = 3",
+		  "        distance = 200",
+		  "    },",
+		  "    {",
+		  "        key = \"LongTermMemory\"",
+		  "        time = 10",
+		  "        distance = 500",
+		  "    },",
+		  "    {",
+		  "        // domain = \"GroupID\"",
+		  "        domain = \"AllBots\"",
+		  "        key = \"Threats\"",
+		  "        time = 10",
+		  "        distance = 0",
+		  "    },",
+		  "    {",
+		  "        key = \"DamageThroughSmokeMemory\"",
+		  "        time = 3",
+		  "        distance = 0",
+		  "    }",
+		  "]",
+		  "//[NOTE]: If any entities need to expire at any point (Specific usage parameter)",
+		  "tagged_entities_to_expire =",
+		  "[",
+		  "   \"input variables here\"",
+		  "]",
+		  "// [NOTE]: Have not included the following param: basic_chatter_enable & input_chatter_enemies ",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Bot Service Decorator"
+	},
+	"Adds an Buy Service Decorator": {
+		"prefix": "buy service",
+		"body": [
+		  "// Returns an array to 'output' on what the bot bought (or will?)",
+		  "type = \"decorator_buy_service\"",
+		  "output = \"${1:Output Variable}\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Buy Service Decorator"
+	},
+
+	// Conditionals
+	"Adds an Distance Less Conditional": {
+		"prefix": "distance less",
+		"body": [
+		  "// Executes child nodes if distance is within threshold",
+		  "type = \"condition_distance_less\"",
+		  "input = \"${1:Input Variable}\"",
+		  "distance_threshold_min = ${2:100}",
+		  "distance_threshold_max = ${3:200}",
+		  "negated = 1 // Unsure what negated means at the moment, not documented.",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Distance Less Conditional"
+	},
+	"Adds an Has Parachute Conditional": {
+		"prefix": "has parachute",
+		"body": [
+		  "// Executes child nodes if bot has parachute in inventory",
+		  "type = \"condition_has_parachute\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Has Parachute Conditional"
+	},
+	"Adds an Inactive Conditional": {
+		"prefix": "inactive",
+		"body": [
+		  "// Executes child nodes if the given input memory or variables are no present/long from an update",
+		  "type = \"condition_inactive\"",
+		  "// input : what sensors or memory will be used to determine if the bot is doing nothing or is stuck.",
+		  "input =",
+		  "[",
+		  "    {",
+		  "        key = \"ShortTermAttackMemory\"",
+		  "    }",
+		  "]",
+		  "round_start_threshold_seconds = 90",
+		  "sensor_inactivity_threshold_seconds = 60",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Inactive Conditional"
+	},
+	"Adds an Is Airborne Conditional": {
+		"prefix": "is airborne",
+		"body": [
+		  "// Executes child nodes if the bot at the given execution time is in the air",
+		  "type = \"condition_is_airborne\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Is Airborne Conditional"
+	},
+	"Adds an Is At Bomb Site Conditional": {
+		"prefix": "bomb site",
+		"body": [
+		  "// Executes child nodes if the bot is at any bombsite in the map",
+		  "type = \"condition_is_at_bomb_site\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Is At Bomb Site Conditional"
+	},
+	"Adds an Is Reloading Conditional": {
+		"prefix": "reloading",
+		"body": [
+		  "// Executes child nodes if the bot is reloading their weapon",
+		  "type = \"condition_is_reloading\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Is Reloading Conditional"
+	},
+	"Adds an Out Of Ammo Conditional": {
+		"prefix": "out of ammo",
+		"body": [
+		  "// Executes child nodes if the bot has no ammo left (or is empty)",
+		  "type = \"condition_out_of_ammo\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Out Of Ammo Conditional"
+	},
+	"Adds an Weapon Conditional": {
+		"prefix": "weapon",
+		"body": [
+		  "// Validates if equipped, suitable or owns the item (Assuming executes child nodes if true)",
+		  "type = \"condition_${1|is_weapon_equipped,is_weapon_suitable,owns_item|}\"",
+		  "weapon = \"weapon_$2\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Weapon Conditional"
+	},
+	"Adds an Comparison Conditional": {
+		"prefix": "comparison",
+		"body": [
+		  "// Executes child nodes if condition is true",
+		  "type = \"condition_is_${1|equal,greater,greater_equal,less,less_equal|}\"",
+		  "source = \"${2:Input Variable for Compare Item A}\"",
+		  "destination = \"${3:Input Variable for Compare Item B}\"",
+		  "// Possible to include 'domain' key if required",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Comparison Conditional"
+	},
+	"Adds an Inventory Slot Empty Conditional": {
+		"prefix": "inventory slot empty",
+		"body": [
+		  "// Executes child nodes if the given 'slot' is empty for the bot",
+		  "type = \"condition_is_inv_slot_empty\"",
+		  "slot = \"${1|KNIFE,PISTOL,RIFLE,GRENADES|}\"",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Inventory Slot Empty Conditional"
+	},
+	"Adds an Is Empty Conditional": {
+		"prefix": "is empty",
+		"body": [
+		  "// Executes child nodes if the given 'input' is empty",
+		  "type = \"condition_is_empty\"",
+		  "input = \"${1:Input Variable}\"",
+		  "negated = 1",
+		  "child =",
+		  "{",
+		  "    $0",
+		  "}"
+		],
+		"description": "Adds an Is Empty Conditional"
+	},
+
+	// Actions
+
+	// No Paramter Actions
+	"Adds an Buy Action": {
+		"prefix": "action buy",
+		"body": [
+		"// Forces bot the buy items through 'buy_service' decorator variable",
+		"type = \"action_buy\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Buy Action"
+	},
+	 "Adds an Suicide Action": {
+		"prefix": "action commit suicide",
+		"body": [
+		"// Forces bot to commit suicide, sad times.",
+		"type = \"action_commit_suicide\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Suicide Action"
+	},
+	 "Adds an Crouch Action": {
+		"prefix": "action crouch",
+		"body": [
+		"// Forces bot to crouch",
+		"type = \"action_crouch\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Crouch Action"
+	},
+	 "Adds an Drop Active Weapon Action": {
+		"prefix": "action drop active weapon",
+		"body": [
+		"// Makes bot drop its current weapon",
+		"type = \"action_drop_active_weapon\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Drop Active Weapon Action"
+	},
+	 "Adds an Hide Action": {
+		"prefix": "action hide",
+		"body": [
+		"// Makes the bot go into hide mode",
+		"type = \"action_hide\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Hide Action"
+	},
+	 "Adds an Inspect Weapon Action": {
+		"prefix": "action inspect weapon",
+		"body": [
+		"// Forces bot the inspect its current weapon",
+		"type = \"action_inspect_current_weapon\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Inspect Weapon Action"
+	},
+	 "Adds an Jump Action": {
+		"prefix": "action jump",
+		"body": [
+		"// Makes the bot jump",
+		"type = \"action_jump\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Jump Action"
+	},
+	 "Adds an Parachute Positioning Action": {
+		"prefix": "action parachute positioning",
+		"body": [
+		"// Unknown, if it has decided its land path?",
+		"type = \"action_parachute_positioning\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Parachute Positioning Action"
+	},
+	 "Adds an Reload Action": {
+		"prefix": "action reload",
+		"body": [
+		"// Makes the bot reload its current weapon",
+		"type = \"action_reload\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Reload Action"
+	},
+	 "Adds an Second Attack Action": {
+		"prefix": "action secondary attack",
+		"body": [
+		"// Makes the bot perform their second action to their current weapon",
+		"type = \"action_secondary_attack\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Second Attack Action"
+	},
+	 "Adds an Stand-Up Action": {
+		"prefix": "action standup",
+		"body": [
+		"// Forces the bot to stand itself up",
+		"type = \"action_standup\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Stand-Up Action"
+	},
+	 "Adds an Use Action": {
+		"prefix": "action use",
+		"body": [
+		"// Makes the bot use the '+use' to activate buttons or doors",
+		"type = \"action_use\"",
+		"child =",
+		"{",
+		"    $0",
+		"}"
+		],
+		"description": "Adds an Use Action"
+	}	 
+}
