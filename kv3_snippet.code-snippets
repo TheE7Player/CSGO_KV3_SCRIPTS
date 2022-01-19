@@ -573,105 +573,265 @@
 	},
 
 	// Actions
-
-	// No Paramter Actions
+	"Adds an Acquire Items Action": {
+		"prefix": "acquire items",
+		"body": [
+		  "// Makes the bots acquire provided items in the array 'items', with option to erase prior to acquiring them",
+		  "type = \"action_acquire_items\"",
+		  "items =",
+		  "[",
+		  "    \"weapon_x\",",
+		  "    \"weapon_y\",",
+		  "    \"weapon_z\",",
+		  "]",
+		  "// If to clear the items the bot currently has",
+		  "// 0 = No, 1 = Yes",
+		  "remove_all_items = ${1|0,1|}"
+		],
+		"description": "Adds an Acquire Items Action"
+	},
+	"Adds an Aim Action": {
+		"prefix": "aim",
+		"body": [
+			"// Forces bot to look at given vector",
+			"type = \"action_aim\"",
+			"input = ${1: Vector (0.00, 0.00, 0.00) or Input Variable}",
+			"// 0 = No, 1 = Yes",
+			"acquire_only = ${2|0,1|}"
+		],
+		"description": "Adds an Aim Action"
+	},
+	"Adds an Aim Projectile Action": {
+		"prefix": "aim projectile",
+		"body": [
+		  "// Bot calculations angle from input and tries to imply it into output",
+		  "type = \"action_aim_projectile\"",
+		  "input = ${1: Vector (0.00, 0.00, 0.00) or Input Variable}",
+		  "output = ${2: Vector (0.00, 0.00, 0.00) or Input Variable}"
+		],
+		"description": "Adds an Aim Projectile Action"
+	},
+	"Adds an Attack Action": {
+		"prefix": "attack",
+		"body": [
+		  "// Bot performs an attack based on input, output returns its location/state?",
+		  "type = \"action_aim_attack\"",
+		  "input = ${1:Vector (0.00, 0.00, 0.00) or Input Variable}",
+		  "output = ${2:Input Variable (\"Attacking\" etc)}",
+		  "ready = ${3:Output? Variable (\"AimReady\" etc)}"
+		],
+		"description": "Adds an attack Action"
+	},
 	"Adds an Buy Action": {
 		"prefix": "action buy",
 		"body": [
 		"// Forces bot the buy items through 'buy_service' decorator variable",
-		"type = \"action_buy\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_buy\""
 		],
 		"description": "Adds an Buy Action"
 	},
-	 "Adds an Suicide Action": {
+	"Adds an Choose Bomb Site Area Action": {
+		"prefix": "choose bomb site area",
+		"body": [
+		  "// Bot gets a bomb plant location from bombzone nav (Stores nav location to 'output')",
+		  "type = \"action_choose_bomb_site_area\"",
+		  "// 1 = A, 2 = B ?",
+		  "input = ${1:|1,2|}",
+		  "output = ${2:Output Variable (The navzone chosen, stored to)}"
+		],
+		"description": "Adds an Choose Bomb Site Area Action"
+	},
+	"Adds an Choose Random Waypoint Action": {
+		"prefix": "choose random waypoint",
+		"body": [
+		  "// Returns a vector based on given NavZone input",
+		  "type = \"action_choose_random_waypoint\"",
+		  "input = ${1:Navzone Variable}",
+		  "output = ${2:Output Variable (Random Chosen Vector Variable)}"
+		],
+		"description": "Adds an Choose Random Waypoint Action"
+	},
+	"Adds an Choose Random Waypoint within Radius Action": {
+		"prefix": "choose random waypoint radius",
+		"body": [
+		  "// Returns a vector based on given vector input with radius provided",
+		  "type = \"action_choose_random_waypoint_within_radius\"",
+		  "input = ${1:Vector or Input Variable}",
+		  "radius = ${2:Radius (as float, 0.00)}",
+		  "output = ${3:Output Variable (Random Chosen Vector Within Radius)}"
+		],
+		"description": "Adds an Choose Random Waypoint within Radius Action"
+	},
+	"Adds an Choose Team Spawn Area Action": {
+		"prefix": "choose team spawn area",
+		"body": [
+		  "// Returns all spawnspoints in a Navzone where the bot can try to go to (Deathmatch usage)",
+		  "type = \"action_choose_team_spawn_area\"",
+		  "output = ${1:Output Variable (Navzones with spawnpoints given)}"
+		],
+		"description": "Adds an Choose Team Spawn Area Action"
+	},
+	"Adds an Combat Positioning Action": {
+		"prefix": "combat positioning",
+		"body": [
+		  "// Makes bot do contact on a position, returns output variable if it decides to attack or not",
+		  "type = \"action_combat_positioning\"",
+		  "input = \"${1: Input Variable (Enemy etc)}\"",
+		  "// This stores if the bot is attacking or not as a output variable",
+		  "is_attacking = \"Attacking\""
+		],
+		"description": "Adds an Combat Positioning Action"
+	},
+	"Adds an Suicide Action": {
 		"prefix": "action commit suicide",
 		"body": [
 		"// Forces bot to commit suicide, sad times.",
-		"type = \"action_commit_suicide\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_commit_suicide\""
 		],
 		"description": "Adds an Suicide Action"
 	},
-	 "Adds an Crouch Action": {
+	"Adds an Compare Global Counter Action": {
+		"prefix": "compare global counter",
+		"body": [
+		  "// Comparison against a global variable, executes children if true?",
+		  "type = \"action_compare_global_counter\"",
+		  "input_name = \"'${1:Global Variable}'\"",
+		  "// The number to compare to the global variable",
+		  "input_value = \"${2:Input variable or number (0..10)}\""
+		],
+		"description": "Adds an Compare Global Counter Action"
+	},
+	"Adds an Crouch Action": {
 		"prefix": "action crouch",
 		"body": [
 		"// Forces bot to crouch",
-		"type = \"action_crouch\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_crouch\""
 		],
 		"description": "Adds an Crouch Action"
 	},
-	 "Adds an Drop Active Weapon Action": {
+	"Adds an Equip Item Action": {
+		"prefix": "equip item",
+		"body": [
+		  "// Makes bots equip either weapon stated from the array 'items_one_of'",
+		  "// The priority is based on first order (first index)?",
+		  "type = \"action_equip_item\"",
+		  "items_one_of =",
+		  "[",
+		  "    \"weapon_x\",",
+		  "    \"weapon_y\"",
+		  "]"
+		],
+		"description": "Adds an Equip Item Action"
+	},
+	"Adds an Equip Weapon Action": {
+		"prefix": "equip weapon",
+		"body": [
+		  "// Makes bots equip their best weapon available or stated",
+		  "type = \"action_equip_weapon\"",
+		  "weapon = \"${1|BEST,weapon_|}\""
+		],
+		"description": "Adds an Equip Weapon Action"
+	},
+	"Adds an Flee Area Damage Action": {
+		"prefix": "flee area damage",
+		"body": [
+		  "// Bots runs/escapes to a safe area within range",
+		  "type = \"action_flee_area_damage\"",
+		  "input = \"${1:Vector or Input Variable}\"",
+		  "output = \"${2:Output Variable}\"",
+		  "// Adjust the integer (number) here, DON'T LEAVE WITH '..'",
+		  "max_search_range = 1..10",
+		  "threat_min_keep_distance = 1..10"
+		],
+		"description": "Adds an Flee Area Damage Action"
+	},
+	"Adds an Drop Active Weapon Action": {
 		"prefix": "action drop active weapon",
 		"body": [
 		"// Makes bot drop its current weapon",
-		"type = \"action_drop_active_weapon\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_drop_active_weapon\""
 		],
 		"description": "Adds an Drop Active Weapon Action"
 	},
-	 "Adds an Hide Action": {
+	"Adds an Hide Action": {
 		"prefix": "action hide",
 		"body": [
 		"// Makes the bot go into hide mode",
-		"type = \"action_hide\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_hide\""
 		],
 		"description": "Adds an Hide Action"
 	},
-	 "Adds an Inspect Weapon Action": {
+	"Adds an Inspect Weapon Action": {
 		"prefix": "action inspect weapon",
 		"body": [
 		"// Forces bot the inspect its current weapon",
-		"type = \"action_inspect_current_weapon\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_inspect_current_weapon\""
 		],
 		"description": "Adds an Inspect Weapon Action"
 	},
-	 "Adds an Jump Action": {
+	"Adds an Jump Action": {
 		"prefix": "action jump",
 		"body": [
 		"// Makes the bot jump",
-		"type = \"action_jump\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_jump\""
 		],
 		"description": "Adds an Jump Action"
 	},
-	 "Adds an Parachute Positioning Action": {
+	"Adds an Look At Action": {
+		"prefix": "look at",
+		"body": [
+		  "// Bot Looks at a vector given while also being able to store the area nav its looking at",
+		  "type = \"action_look_at\"",
+		  "input = \"${1:Vector or Input Variable}\"",
+		  "// If you need the nav location of where its looking at, this field isn't required to run (only input is required)",
+		  "input_location = \"${2:Output (Navzone with input used)}\""
+		],
+		"description": "Adds an Look At Action"
+	},
+	"Adds an Move To Action": {
+		"prefix": "move to",
+		"body": [
+		  "// Bots moves to location given with multiple factors to consider",
+		  "type = \"action_move_to\"",
+		  "destination= \"${1:Vector or Input Variable}\"",
+		  "// How should the bot move - in a quite or fast pace?",
+		  "movement_type = \"${2|BT_ACTION_MOVETO_RUN,BT_ACTION_MOVETO_WALK|}\"",
+		  "// How the bot navigates with the navzones - should it go to areas with conflicts?",
+		  "route_type = \"${3|BT_ACTION_MOVETO_FASTEST_ROUTE,BT_ACTION_MOVETO_SAFEST_ROUTE|}\"",
+		  "// What should the bots hiding spot be if it needs to hide?",
+		  "hiding_spot = \"${4:Vector or Input Variable}\"",
+		  "// What should the bot consider a threat while moving to the location?",
+		  "threat = \"${5:Vector or Input Variable}\"",
+		  "// Default variables, adjust accordingly",
+		  "damaging_areas_penalty_cost = 0",
+		  "nearest_area_distance_threshold = 0",
+		  "hiding_spot_check_distance_threshold = 0",
+		  "arrival_epsilon = 0",
+		  "additional_arrival_epsilon_2d = 0.00",
+		  "// Should the bot try to auto-aim while running?",
+		  "auto_look_adjust = ${5|0,1|}"
+		],
+		"description": "Adds an Move To Action"
+    },
+	"Adds an Parachute Positioning Action": {
 		"prefix": "action parachute positioning",
 		"body": [
 		"// Unknown, if it has decided its land path?",
-		"type = \"action_parachute_positioning\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_parachute_positioning\""
 		],
 		"description": "Adds an Parachute Positioning Action"
 	},
-	 "Adds an Reload Action": {
+	"Adds an Pull Trigger Action": {
+		"prefix": "pull trigger",
+		"body": [
+		  "// Bots pulls the trigger of its current weapon",
+		  "type = \"action_pull_trigger\"",
+		  "// Unsure as of what it means by ratio - can be ignored?",
+		  "ratio = 0"
+		],
+		"description": "Adds an Pull Trigger Action"
+	},
+	"Adds an Reload Action": {
 		"prefix": "action reload",
 		"body": [
 		"// Makes the bot reload its current weapon",
@@ -683,40 +843,101 @@
 		],
 		"description": "Adds an Reload Action"
 	},
-	 "Adds an Second Attack Action": {
+	"Adds an Say Action": {
+		"prefix": "say",
+		"body": [
+		  "// Makes the bot perform a chatter (botchatter.db)",
+		  "type = \"action_say\"",
+		  "// Unsure as of what it means by ratio - can be ignored?",
+		  "phrase = \"\"",
+		  "high_priority = 0"
+		],
+		"description": "Adds an Say Action"
+	},
+	"Adds an Second Attack Action": {
 		"prefix": "action secondary attack",
 		"body": [
 		"// Makes the bot perform their second action to their current weapon",
-		"type = \"action_secondary_attack\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_secondary_attack\""
 		],
 		"description": "Adds an Second Attack Action"
 	},
-	 "Adds an Stand-Up Action": {
+	"Adds an Select Areas Within Radius Action": {
+		"prefix": "select areas within radius",
+		"body": [
+		  "// Makes the bot perform a chatter (botchatter.db)",
+		  "type = \"action_select_areas_within_radius\"",
+		  "input = \"${1:Vector or Input Variable}\"",
+		  "radius = 0",
+		  "output = \"${2:Output Variable}\""
+		],
+		"description": "Adds an Select Areas Within Radius Action"
+	},
+	"Adds an Set Global Counter Action": {
+		"prefix": "set global counter",
+		"body": [
+		  "// Sets a global variable with a number",
+		  "type = \"action_set_global_counter\"",
+		  "input_name = \"'${1:Global Variable Name}'\"",
+		  "input_value = $0"
+		],
+		"description": "Adds an Select Areas Within Radius Action"
+	},
+	"Adds an Set Global Flag Action": {
+		"prefix": "set global flag",
+		"body": [
+		  "// Sets a global variable with a flag",
+		  "// This sets a flag within a time condition, of which it's destroyed once expired",
+		  "type = \"action_set_global_flag\"",
+		  "name = \"'${1:Global Variable Name}'\"",
+		  "expiration_time_min = $2",
+		  "expiration_time_max = $0"
+		],
+		"description": "Adds an Set Global Flag Action"
+	},
+	"Adds an Set Value Action": {
+		"prefix": "set value",
+		"body": [
+		  "// Sets a global variable with a value, either a float or a vector",
+		  "type = \"action_set_value_${1|float,vector|}\"",
+		  "key = \"'${2:Global Variable Name}'\"",
+		  "value = $0"
+		],
+		"description": "Adds an Set Value Action"
+	},
+	"Adds an Stand-Up Action": {
 		"prefix": "action standup",
 		"body": [
 		"// Forces the bot to stand itself up",
-		"type = \"action_standup\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_standup\""
 		],
 		"description": "Adds an Stand-Up Action"
 	},
-	 "Adds an Use Action": {
+	"Adds an Teleport Action": {
+		"prefix": "teleport",
+		"body": [
+		  "// Teleports the bot to a location set by 'destination'",
+		  "type = \"action_teleport\"",
+		  "destination = $0"
+		],
+		"description": "Adds an Teleport Action"
+	},
+	"Adds an Use Action": {
 		"prefix": "action use",
 		"body": [
 		"// Makes the bot use the '+use' to activate buttons or doors",
-		"type = \"action_use\"",
-		"child =",
-		"{",
-		"    $0",
-		"}"
+		"type = \"action_use\""
 		],
 		"description": "Adds an Use Action"
-	}	 
+	},
+	"Adds an Wait Action": {
+		"prefix": "wait",
+		"body": [
+		  "// Pauses the AI / Script from the set time (min and max same if constant waiting time)",
+		  "type = \"action_wait\"",
+		  "wait_time_min = $1",
+		  "wait_time_max = $0"
+		],
+		"description": "Adds an Wait Action"
+	}
 }
