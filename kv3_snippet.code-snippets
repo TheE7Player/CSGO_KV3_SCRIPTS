@@ -53,7 +53,7 @@
 		"prefix": "sub",
 		"body": [
 			"type = \"subtree\"",
-			"file = scripts/ai/${1:another_file.kv3}",
+			"file = \"scripts/ai/${1:another_file.kv3}\"",
 			"name = ${0:Give Name (BasicPlayerMemorization/PlantC4/etc)}"
 		],
 		"description": "Adds a Subtree (Reads from another .kv3 file)"
@@ -208,7 +208,7 @@
 		"body": [
 		  "// Removes an assign key in the trees cache",
 		  "type = \"decorator_remove_key\"",
-		  "input = \"${0:Input Variable To Clear)\""
+		  "input = \"${0:Input Variable To Clear}\""
 		],
 		"description": "Adds an Remove Key Decorator"
 	},
@@ -417,6 +417,22 @@
 		],
 		"description": "Adds an Buy Service Decorator"
 	},
+	"Adds an Hiding Spot Service": {
+		"prefix": "hiding spot service",
+		"body": [
+			"// Tells the bot to pick a random location initially (first item usually) within the input given",
+			"type = \"decorator_hiding_spot_service\"",
+			"domain = \"${1|GroupID,AllBots|}\"",
+			"output_location = \"${2:Vector or Input Variable}\"",
+			"distance_threshold = 800",
+			"expiration_time = 10",
+			"child = ",
+			"{",
+			"    $0",
+			"}"
+		],
+		"description": "Adds an Hiding Spot Service Decorator"
+	},
 
 	// Conditionals
 	"Adds an Distance Less Conditional": {
@@ -427,7 +443,7 @@
 		  "input = \"${1:Input Variable}\"",
 		  "distance_threshold_min = ${2:100}",
 		  "distance_threshold_max = ${3:200}",
-		  "negated = 1 // Unsure what negated means at the moment, not documented.",
+		  "negated = 1 // If validing for inverse condition (Checking if distance condition is not less)",
 		  "child =",
 		  "{",
 		  "    $0",
@@ -563,7 +579,7 @@
 		  "// Executes child nodes if the given 'input' is empty",
 		  "type = \"condition_is_empty\"",
 		  "input = \"${1:Input Variable}\"",
-		  "negated = 1",
+		  "negated = 1 // Check for inverse condition, checking for if not empty",
 		  "child =",
 		  "{",
 		  "    $0",
@@ -635,8 +651,8 @@
 		"body": [
 		  "// Bot gets a bomb plant location from bombzone nav (Stores nav location to 'output')",
 		  "type = \"action_choose_bomb_site_area\"",
-		  "// 1 = A, 2 = B ?",
-		  "input = ${1:|1,2|}",
+		  "// 0 = A, 1 = B",
+		  "input = ${1:|0,1|}",
 		  "output = ${2:Output Variable (The navzone chosen, stored to)}"
 		],
 		"description": "Adds an Choose Bomb Site Area Action"
@@ -782,7 +798,7 @@
 		"body": [
 		  "// Bot Looks at a vector given while also being able to store the area nav its looking at",
 		  "type = \"action_look_at\"",
-		  "input = \"${1:Vector or Input Variable}\"",
+		  "input_angles = \"${1:Vector or Input Variable}\"",
 		  "// If you need the nav location of where its looking at, this field isn't required to run (only input is required)",
 		  "input_location = \"${2:Output (Navzone with input used)}\""
 		],
